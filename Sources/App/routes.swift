@@ -1,11 +1,19 @@
 import Vapor
 
-func routes(_ app: Application) throws {
-    app.get { req in
-        return "It works!"
-    }
+struct VideoCourse: Content {
+    let name: String
+    let language: String
+    let version: Double
+}
 
-    app.get("hello") { req -> String in
-        return "Hello, world!"
+func routes(_ app: Application) throws {
+    app.post("upload") {req -> HTTPResponseStatus in
+        
+        let course = try req.content.decode(VideoCourse.self)
+        print("Course name: \(course.name)")
+        print("Course language: \(course.language)")
+        print("Course version: \(course.version)")
+        
+        return .ok
     }
 }
